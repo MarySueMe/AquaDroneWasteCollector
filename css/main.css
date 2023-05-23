@@ -10,7 +10,13 @@ body {
         height: 1000px;
         position: relative;
        
-    }
+}
+
+.garbage {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
 
 
 
