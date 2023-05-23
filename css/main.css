@@ -1,0 +1,17 @@
+
+
+body {
+    margin: 0;
+    padding: 0;
+}
+    
+#board {
+        background-color: rgb(16, 178, 232);
+        height: 1000px;
+        position: relative;
+       
+    }
+
+
+
+
