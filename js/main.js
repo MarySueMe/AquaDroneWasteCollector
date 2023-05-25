@@ -7,6 +7,8 @@ class Game {
     this.gameOver = false;
     this.scoreDisplay = document.getElementById("score");
     this.gameOverDisplay = document.getElementById("gameOver");
+    this.timerElement = document.getElementById("timer");
+    this.timeLeft = 15;
   }
 
   start() {
@@ -22,14 +24,14 @@ class Game {
   //Implement a game loop to drop "obstacles" (garbage)
   gameLoop() {
     //Creation of New garbage
-    setInterval(() => {
+    this.garbageCreation = setInterval(() => {
       const garbageInstance = new Garbage(); // new Instance of "Obstacle"
       this.garbageArr.push(garbageInstance);
       console.log(garbageInstance);
-    }, 4000);
+    }, 3000);
 
     // Garbage captured in collision: we want this!
-    setInterval(() => {
+    this.garbageMoving = setInterval(() => {
       this.garbageArr.forEach((garbageInstance) => {
         // Move current obstacle
         garbageInstance.moveDown();
@@ -40,19 +42,23 @@ class Game {
     }, 1000);
 
     // GameOver Timer
-    const timeLeft = 30;
+    //let timeLeft = 15;
     const elem = document.getElementById("gameOver");
-    const timerId = setInterval(countdown, 30000);
-    function countdown() {
-      if (timeLeft == -1 || this.score === 50) {
-        clearTimeout(timerId);
-        environmentalMessage.innerText =
-          "Keep our waterways clean. Protect our oceans!";
-      } else {
-        elem.innerHTML = timeLeft + " seconds remaining";
-        timeLeft--;
-      }
+    this.timerId = setInterval(() => {
+      this.countdown();
+    }, 1000);
+  }
+  countdown() {
+    this.timeLeft--;
+    if (this.timeLeft === 0 || this.score >= 20) {
+      clearInterval(this.timerId);
+      clearInterval(this.garbageCreation);
+      clearInterval(this.garbageMoving);
+      gameOver.innerText =
+        " Thank you for keeping our oceans clean and protecting the environment!";
+      this.gameOverDisplay.style.display = "block";
     }
+    this.timerElement.innerHTML = this.timeLeft + " seconds remaining";
   }
 
   addEventListeners() {
@@ -150,15 +156,16 @@ class Player {
     parentElm.appendChild(this.domElement);
   }
 
-  //   moveUp() {
-  //     this.positionY++;
-  //     this.domElement.style.bottom = this.positionY + "vh";
-  //   }
+  moveUp() {
+    this.positionY++;
+    this.domElement.style.bottom = this.positionY + "vh";
+  }
 
-  //   moveDown() {
-  //     this.positionY--;
-  //     this.domElement.style.bottom = this.positionY + "vh";
-  //   }
+  moveDown() {
+    this.positionY--;
+    this.domElement.style.bottom = this.positionY + "vh";
+  }
+
   moveRight() {
     this.positionX++;
     this.domElement.style.left = this.positionX + "vw";
@@ -229,19 +236,6 @@ class Garbage {
     // Step 3: Append to the DOM: parentElm.appendChild()
     const parentElm = document.getElementById("board");
     parentElm.appendChild(this.divElement);
-    // //Step 1: create
-    // const imgElement = document.createElement("img");
-
-    // // Step 2: Add content or modify
-
-    // imgElement.src = this.garbageInfo.imageSrc;
-    // // imgElement.alt = this.garbageInfo.name;
-    // imgElement.style.width = "100%";
-    // imgElement.style.height = "100%";
-
-    // // Step 3: Append to the DOM: parentElm.appendChild()
-    // //const parentElm = document.getElementById("board");
-    // parentElm.appendChild(imgElement);
   }
   moveDown() {
     this.positionY += 10;
