@@ -3,8 +3,8 @@ body {
     padding: 0;
     font-family: "verdana";
     text-align: center;
+    font-size: 24px;
 }
-
 
 h1 {
     font-size: 48px;
@@ -50,15 +50,17 @@ h1 {
 } */
 
 #startButton {
-        float: right;
+        /* float: right; */
         overflow: auto;
-        padding: 5;
-        background-color: aqua;
+        left: 25cm;
+        top: 20cm;
+        background-color: rgb(14, 150, 150);
         font-size: 36px;
         position: relative;
-        border: white;
-        border: 3px;
+        /* border: white; */
+        /* border: 3px; */
         text-align: center;
+        border-radius: 25px;
 }
 
 #score {
