@@ -4,25 +4,26 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ocean Waste Collection -- Main HTML | IronHack Project 1</title>
+    <title>AquaDrone Waste Collection -- Main HTML | IronHack Project 1</title>
     <link rel="stylesheet" href="./css/main.css" />
   </head>
   <body>
-    <div id="board" style="background-color: rgb(16, 178, 232)">
-      <h1>Water Robot Garbage Collection</h1>
+    <div id="board">
+      <button id="startButton">
+        <h3>Start Game</h3>
+      </button>
+
+      <div id="gameOver">
+        <h2>Thank you for playing our game</h2>
+
+        <p style="display: center">
+          Thank you for keeping our oceans safe and protecting the environment.
+        </p>
+      </div>
+
+      <button id="score"></button>
     </div>
-    <button id="startButton"><h2>Start Game</h2></button>
-
-    <div id="score"></div>
-
-    <div id="gameOver" style="display: none">
-      <h2>Game Over!</h2>
-
-      <p style="display: center">
-        Thank you for keeping our oceans safe and protecting the environment.
-      </p>
-    </div>
-
+    <h1>AquaDrone Garbage Collection</h1>
     <script src="./js/main.js"></script>
   </body>
 </html>

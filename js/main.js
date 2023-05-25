@@ -14,7 +14,7 @@ class Game {
 
     this.score = 0;
     this.garbageArr = [];
-    this.scoreDisplay.innerText = "Score:  " + this.score;
+    this.scoreDisplay.innerText = "Your Score:  " + this.score;
     this.gameOverDisplay.style.display = "none";
     this.gameOver = false;
   }
@@ -38,6 +38,21 @@ class Game {
         this.removeGarbageIfOutside(garbageInstance);
       });
     }, 1000);
+
+    // GameOver Timer
+    const timeLeft = 30;
+    const elem = document.getElementById("gameOver");
+    const timerId = setInterval(countdown, 30000);
+    function countdown() {
+      if (timeLeft == -1 || this.score === 50) {
+        clearTimeout(timerId);
+        environmentalMessage.innerText =
+          "Keep our waterways clean. Protect our oceans!";
+      } else {
+        elem.innerHTML = timeLeft + " seconds remaining";
+        timeLeft--;
+      }
+    }
   }
 
   addEventListeners() {
@@ -75,7 +90,6 @@ class Game {
     ) {
       this.score += garbageInstance.garbageInfo.points; // Increment the score
       this.updateScoreDisplay(); // update the score display
-      console.log("colision....");
       console.log(`Captured garbage! Total Score: ${this.score}`);
       return true;
     }
@@ -83,7 +97,7 @@ class Game {
   }
 
   updateScoreDisplay() {
-    this.scoreDisplay.innerText = this.score;
+    this.scoreDisplay.innerText = "Your Score:  " + this.score;
     //Update the text content
   }
 
@@ -92,7 +106,7 @@ class Game {
     // const board.height = board.clientHeight;
     console.log("garbageInstance.positionY", garbageInstance.positionY);
     if (
-      garbageInstance.positionY > 80 ||
+      garbageInstance.positionY > 85 ||
       this.detectCollision(garbageInstance)
     ) {
       // 1. remove element from the DOM
@@ -102,11 +116,6 @@ class Game {
       if (index !== -1) {
         this.garbageArr.splice(index, 1);
       }
-    }
-  }
-
-  endGame() {
-    if ((this.gameOver = true)) {
     }
   }
 }

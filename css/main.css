@@ -6,17 +6,19 @@ body {
 
 
 h1 {
-    font-size: 72px;
+    font-size: 64px;
     color: #0e266e;
     text-align: center;
-    padding: 100;
+    padding: 0;
 }
     
 
 #board {
         background-image: url("../images/vecteezy -reduce-plastic-pollution-in-our-oceans.jpg");
-        height: 1000px;
-        position: relative; 
+        height: 900px;
+        position: relative;
+        background-position: bottom;
+        
 }
 
 #player {
@@ -37,19 +39,33 @@ h1 {
 }
 
 #scoreDisplay {
-    height: 20px;
-    width: 30px;
-    font-size: 28;
+    
 
 }
+/* .container {
+    justify-content: space-between;
+    flex-direction: column;
+    display: flex;
+} */
 
 #startButton {
-        padding: 50;
+        float: right;
+        overflow: auto;
+        padding: 10;
         background-color: aqua;
-        display: center;
         font-size: 36px;
+        position: relative;
+        border: white;
+        border: 5px;
+        text-align: center;
 }
 
+#score {
+    padding: 10;
+    height: 2cm;
+    width: 7cm;
+    font-size: 36px;
+}
 
 #gameOver {
 
