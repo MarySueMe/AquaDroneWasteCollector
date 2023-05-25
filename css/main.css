@@ -1,23 +1,57 @@
-
-
 body {
     margin: 0;
     padding: 0;
+    font-family: "verdana";
+}
+
+
+h1 {
+    font-size: 72px;
+    color: #0e266e;
+    text-align: center;
+    padding: 100;
 }
     
+
 #board {
-        background-color: rgb(16, 178, 232);
+        background-image: url("../images/vecteezy -reduce-plastic-pollution-in-our-oceans.jpg");
         height: 1000px;
-        position: relative;
-       
+        position: relative; 
+}
+
+#player {
+    background-image: url("../images/Robot-for-Game.png");
+    background-size: cover;
+    background-position: center;
+
 }
 
 .garbage {
+    /*background-image: url(../images/coffeeCups.jpg), url(../images/plasticBags.jpg), url(../images/plasticBottles.jpg), url(../images/PlasticBinOfGarbage.png), url(../images/rubberDuck.jpg);*/
     position: absolute;
-    top: 10px;
-    left: 20px;
+    background-size: cover;
+    background-position: center;
+    /*background-color: blueviolet;*/
+    /* top: 10px;
+    left: 20px; */
+}
+
+#scoreDisplay {
+    height: 20px;
+    width: 30px;
+    font-size: 28;
+
+}
+
+#startButton {
+        padding: 50;
+        background-color: aqua;
+        display: center;
+        font-size: 36px;
 }
 
 
+#gameOver {
 
+}
 

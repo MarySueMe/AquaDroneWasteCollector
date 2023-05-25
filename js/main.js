@@ -3,6 +3,7 @@ class Game {
     this.player = null; //
     this.garbageArr = []; // bags, water bottles, coffee cups, plastic garbage...
     this.score = 0;
+    this.addEventListeners();
     this.gameOver = false;
     this.scoreDisplay = document.getElementById("score");
     this.gameOverDisplay = document.getElementById("gameOver");
@@ -10,34 +11,29 @@ class Game {
 
   start() {
     this.player = new Player();
-    this.addEventListeners();
-    this.gameOver = false;
+
     this.score = 0;
     this.garbageArr = [];
-    this.scoreDisplay.textContent = "Score:  " + this.score;
+    this.scoreDisplay.innerText = "Score:  " + this.score;
     this.gameOverDisplay.style.display = "none";
-    // this.updateGame();
+    this.gameOver = false;
+  }
 
-    // if (this.gameOver) {
-    //   this.endGame();
-    //   return;
-    // }
-
-    //Generate New garbage
+  //Implement a game loop to drop "obstacles" (garbage)
+  gameLoop() {
+    //Creation of New garbage
     setInterval(() => {
-      const garbageInstance = new Garbage();
+      const garbageInstance = new Garbage(); // new Instance of "Obstacle"
       this.garbageArr.push(garbageInstance);
       console.log(garbageInstance);
     }, 4000);
 
-    // Garbage captured:  collision
+    // Garbage captured in collision: we want this!
     setInterval(() => {
       this.garbageArr.forEach((garbageInstance) => {
         // Move current obstacle
         garbageInstance.moveDown();
 
-        // detect collision
-        this.detectCollision(garbageInstance);
         // detect if obstacle needs to be removed, once "collected"
         this.removeGarbageIfOutside(garbageInstance);
       });
@@ -45,6 +41,14 @@ class Game {
   }
 
   addEventListeners() {
+    const startButton = document.getElementById("startButton");
+    console.log("start!!!", startButton);
+    startButton.addEventListener("click", (event) => {
+      console.log(event, "Event");
+      this.gameLoop();
+      startButton.setAttribute("hidden", true);
+    });
+
     document.addEventListener("keydown", (event) => {
       console.log("event", event);
       if (event.code === "ArrowLeft") {
@@ -60,34 +64,61 @@ class Game {
   }
 
   detectCollision(garbageInstance) {
+    const playerRect = this.player.domElement.getBoundingClientRect();
+    const garbageRect = garbageInstance.divElement.getBoundingClientRect();
+    console.log("playerRect", playerRect, "garbageRect", garbageRect);
     if (
-      garbageInstance.positionX < this.player.positionX + this.player.width &&
-      garbageInstance.positionX + garbageInstance.width >
-        this.player.positionX &&
-      garbageInstance.positionY < this.player.positionY + this.player.height &&
-      garbageInstance.height + garbageInstance.positionY > this.player.positionY
+      playerRect.x < garbageRect.x + garbageRect.width &&
+      playerRect.x + playerRect.width > garbageRect.x &&
+      playerRect.y < garbageRect.y + garbageRect.height &&
+      playerRect.height + playerRect.y > garbageRect.y
     ) {
-      console.log(`captured garbage!`);
+      this.score += garbageInstance.garbageInfo.points; // Increment the score
+      this.updateScoreDisplay(); // update the score display
+      console.log("colision....");
+      console.log(`Captured garbage! Total Score: ${this.score}`);
+      return true;
     }
+    return false;
+  }
+
+  updateScoreDisplay() {
+    this.scoreDisplay.innerText = this.score;
+    //Update the text content
   }
 
   removeGarbageIfOutside(garbageInstance) {
-    if (garbageInstance.positionY > 90) {
+    // const board = document.getElementById("board");
+    // const board.height = board.clientHeight;
+    console.log("garbageInstance.positionY", garbageInstance.positionY);
+    if (
+      garbageInstance.positionY > 80 ||
+      this.detectCollision(garbageInstance)
+    ) {
       // 1. remove element from the DOM
-      garbageInstance.domElement.remove();
+      garbageInstance.divElement.remove();
       // 2. remove from the garbage array
-      this.garbageArr.shift();
+      const index = this.garbageArr.indexOf(garbageInstance);
+      if (index !== -1) {
+        this.garbageArr.splice(index, 1);
+      }
     }
-  } // end of Game class (includes start method)
+  }
+
+  endGame() {
+    if ((this.gameOver = true)) {
+    }
+  }
 }
+// end of the Game class (includes start method)
 
 class Player {
   //robot ocean garbage collector
   constructor() {
     this.width = 15;
     this.height = 15;
-    this.positionX = 25 - this.width / 2;
-    this.positionY = 25;
+    this.positionX = 50 - this.width / 2;
+    this.positionY = 0;
     this.domElement = null; // this element stores a reference to the dom element of the player
     this.createDomElement();
   }
@@ -98,7 +129,6 @@ class Player {
 
     //Step 2: Add content or modify
     this.domElement.id = "player";
-    this.domElement.src = "images/Robot for Game Small.jpeg";
     // this.domElement.style.this.domElement.style.backgroundColor = "rgb(111,40, 166)";
     this.domElement.style.position = "absolute";
     this.domElement.style.width = this.width + "vw";
@@ -111,15 +141,15 @@ class Player {
     parentElm.appendChild(this.domElement);
   }
 
-  moveUp() {
-    this.positionY++;
-    this.domElement.style.bottom = this.positionY + "vh";
-  }
+  //   moveUp() {
+  //     this.positionY++;
+  //     this.domElement.style.bottom = this.positionY + "vh";
+  //   }
 
-  moveDown() {
-    this.positionY--;
-    this.domElement.style.bottom = this.positionY + "vh";
-  }
+  //   moveDown() {
+  //     this.positionY--;
+  //     this.domElement.style.bottom = this.positionY + "vh";
+  //   }
   moveRight() {
     this.positionX++;
     this.domElement.style.left = this.positionX + "vw";
@@ -133,31 +163,29 @@ class Player {
 const GarbageType = [
   {
     name: "plastic bags",
-    imageSrc: "images/plasticBags.jpg",
+    imageSrc: "./images/plasticBags.jpg",
+    points: 10,
   },
   {
     name: "plastic bottles",
-    imageSrc: "images/plasticBottles.jpg",
+    imageSrc: "./images/plasticBottles.jpg",
+    points: 5,
   },
   {
     name: "coffee cups",
-    imageSrc: "images/coffeeCups.jpg",
+    imageSrc: "./images/coffeeCups.jpg",
+    points: 10,
   },
-  {
-    name: "plastic bags",
-    imageSrc: "images/plasticBags.jpg",
-  },
+
   {
     name: "plastic garbage",
-    imageSrc: "images/Plastic bin garbage.png",
-  },
-  {
-    name: "plastic bottles",
-    imageSrc: "images/plasticBottles.jpg",
+    imageSrc: "./images/PlasticBinOfGarbage.png",
+    points: 1,
   },
   {
     name: "rubber duck",
-    imageSrc: "images/rubberDuck.jpg",
+    imageSrc: "./images/rubberDuck.jpg",
+    points: 20,
   },
 ];
 
@@ -169,39 +197,46 @@ class Garbage {
     this.garbageInfo =
       GarbageType[Math.floor(Math.random() * GarbageType.length)];
     this.width = 10;
-    this.height = 10;
+    this.height = 20;
     this.positionX = Math.floor(Math.random() * (100 - this.width + 1)); // random number between 0 and 100 - this.width
     this.positionY = 0; //Math.floor(Math.random() * (100 - this.width + 1)); // random number between 0 and 100 - this.width
-    this.domElement = null;
+    this.divElement = null;
     this.createDomElement();
   }
 
   createDomElement() {
     // Step 1: create the element (the garbage bags, plastic bottles...)
-    this.domElement = document.createElement("div");
+    this.divElement = document.createElement("div");
 
     // Step 2: Add content or modify (ex. innerHTML)
-    this.domElement.className = "garbage";
+    this.divElement.className = "garbage";
     // this.domElement.innerHTML = this.garbageType;
-    this.domElement.style.width = this.width + "vw";
-    this.domElement.style.height = this.height + "vh";
-    this.domElement.style.left = this.positionX + "vw";
-    this.domElement.style.top = this.positionY + "vh";
-
-    const imgElement = document.createElement("img");
-    imgElement.src = this.garbageInfo.imageSrc;
-    // imgElement.alt = this.garbageInfo.name;
-    imgElement.style.width = "100%";
-    imgElement.style.height = "100%";
+    this.divElement.style.width = this.width + "vw";
+    this.divElement.style.height = this.height + "vh";
+    this.divElement.style.left = this.positionX + "vw";
+    this.divElement.style.top = this.positionY + "vh";
+    this.divElement.style.backgroundImage = `url(${this.garbageInfo.imageSrc})`;
 
     // Step 3: Append to the DOM: parentElm.appendChild()
     const parentElm = document.getElementById("board");
-    parentElm.appendChild(this.domElement);
-    this.domElement.appendChild(imgElement);
+    parentElm.appendChild(this.divElement);
+    // //Step 1: create
+    // const imgElement = document.createElement("img");
+
+    // // Step 2: Add content or modify
+
+    // imgElement.src = this.garbageInfo.imageSrc;
+    // // imgElement.alt = this.garbageInfo.name;
+    // imgElement.style.width = "100%";
+    // imgElement.style.height = "100%";
+
+    // // Step 3: Append to the DOM: parentElm.appendChild()
+    // //const parentElm = document.getElementById("board");
+    // parentElm.appendChild(imgElement);
   }
   moveDown() {
-    this.positionY += 5;
-    this.domElement.style.top = this.positionY + "vh";
+    this.positionY += 10;
+    this.divElement.style.top = this.positionY + "vh";
     console.log("moveDown", this.positionY);
   }
 }

@@ -8,15 +8,20 @@
     <link rel="stylesheet" href="./css/main.css" />
   </head>
   <body>
-    <div id="board"></div>
+    <div id="board" style="background-color: rgb(16, 178, 232)">
+      <h1>Water Robot Garbage Collection</h1>
+    </div>
+    <button id="startButton"><h2>Start Game</h2></button>
 
-    <h1>Ocean Vacuum</h1>
+    <div id="score"></div>
 
-    <div id="score">Score: 0</div>
+    <div id="gameOver" style="display: none">
+      <h2>Game Over!</h2>
 
-    <button id="startButton">Start Game</button>
-
-    <div id="gameOver" style="display: none">Game Over!</div>
+      <p style="display: center">
+        Thank you for keeping our oceans safe and protecting the environment.
+      </p>
+    </div>
 
     <script src="./js/main.js"></script>
   </body>
