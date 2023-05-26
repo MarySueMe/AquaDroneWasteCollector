@@ -97,14 +97,20 @@ h1 {
 }
 
 #gameOver {
-    font-size: 54px;
+    font-size: 48px;
+    font-style: italic;
     position: absolute;
+    /*display: flex;
+    justify-content: center;
+    align-items: center;*/
+    height: 100%;
     padding: 3;
-    height: 10cm;
-    width: 25cm;
+    z-index: 1000;
+    /*height: 10cm;
+    width: 25cm;*/
     text-align: center;
-    margin: 5cm 16cm;
-    color: rgb(8, 84, 135);
+    /*margin: 5cm 16cm;*/
+    color: rgb(236, 241, 244);
     bottom: 0px;
 }
 
