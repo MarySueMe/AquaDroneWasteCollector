@@ -50,12 +50,12 @@ class Game {
   }
   countdown() {
     this.timeLeft--;
-    if (this.timeLeft === 0 || this.score >= 20) {
+    if (this.timeLeft === 0) {
       clearInterval(this.timerId);
       clearInterval(this.garbageCreation);
       clearInterval(this.garbageMoving);
       gameOver.innerText =
-        " Thank you for keeping our oceans clean and protecting the environment!";
+        "Thank you for keeping our oceans clean and protecting the environment!";
       this.gameOverDisplay.style.display = "block";
     }
     this.timerElement.innerHTML = this.timeLeft + " seconds remaining";

@@ -9,21 +9,26 @@
   </head>
   <body>
     <div id="board">
-      <button id="startButton">
-        <h3>Start</h3>
-      </button>
+      <div id="instructions">
+        <h1>AquaDrone Garbage Collection</h1>
+        <p>
+          Instructions: Use the arrow keys to collect the plastic garbage in the
+          water.
+        </p>
+        <p>The game duration is 15 seconds or 20 points.</p>
+        <p>Click on Start to play the game.</p>
+      </div>
+
+      <div id="start-container">
+        <button id="startButton">Start</button>
+      </div>
 
       <div id="gameOver"></div>
 
       <button id="score"></button>
       <div id="timer"></div>
     </div>
-    <h1>AquaDrone Garbage Collection</h1>
-    <p>
-      Instructions: Use the arrow keys to collect the plastic garbage in the
-      water. The game duration is 15 seconds or 20 points. Click on Start to
-      play the game.
-    </p>
+
     <script src="./js/main.js"></script>
   </body>
 </html>
